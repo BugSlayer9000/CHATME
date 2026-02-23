@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { use } from "react";
 
 const userSchema = new mongoose.Schema(
   {
@@ -8,7 +7,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    fullName: {
+    fullname: {
       type: String,
       required: true,
     },
@@ -27,6 +26,6 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-const user = mongoose.model("User", userSchema);
+const user = mongoose.model("User",userSchema);
 
 export default user;
