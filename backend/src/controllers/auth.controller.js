@@ -16,6 +16,7 @@ export const signup = async (req, res) => {
         .json({ message: "Password must be at least 6 characters" });
     }
 
+    // checks if the db has the same email
     const user = await User.findOne({ email });
 
     if (user) return res.status(400).json({ message: "Email Already exists" });
@@ -24,6 +25,7 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // new user genarated
     const newUser = new User({
       fullname,
       email,
@@ -66,7 +68,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
-    genarateToken(user._id);
+    genarateToken(user._id, res);
 
     res.status(200).json({
       _id: user._id,
@@ -81,5 +83,18 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.send("logout route");
+  try {
+    res.cookie("jwt","",{maxAge:0})
+    res.status(200).json({message:"Logged out successfully"})
+  } catch (error) {
+    console.log("Error in logout controller");
+    res.status(500).json({message:"Internal Server Error"})
+    
+  }
 };
+
+
+export const updateProfile = async (req,res) => {
+  
+}
+
