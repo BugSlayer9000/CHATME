@@ -78,39 +78,48 @@ export const login = async (req, res) => {
       profilePic: user.profilePic,
     });
   } catch (error) {
-    console.log("Error in login controller", error.message)
-    res.status(500).json({message:"Internal server error"})
+    console.log("Error in login controller", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
 export const logout = (req, res) => {
   try {
-    res.cookie("jwt","",{maxAge:0})
-    res.status(200).json({message:"Logged out successfully"})
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout controller");
-    res.status(500).json({message:"Internal Server Error"})
-    
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-
-export const updateProfile = async (req,res) => {
+export const updateProfile = async (req, res) => {
   try {
-    const {profilePic} = req.body
-    const userID = req.user._id
+    const { profilePic } = req.body;
+    const userID = req.user._id;
     // this is because the route is protected in the auth.routes.js and in protect route func user details are getched and send in the req
 
     if (!profilePic) {
-      return res.status(400).json({message:"Profile Pic is required"})
+      return res.status(400).json({ message: "Profile Pic is required" });
     }
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic)
-    const updatteUser = await User.findById(userID, {profilePic:uploadResponse.secure_url},{new:true})
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const updatteUser = await User.findById(
+      userID,
+      { profilePic: uploadResponse.secure_url },
+      { new: true },
+    );
   } catch (error) {
     console.log("Error in the update profile pic", error);
-    res.status(500).json({message:"Internal Server Error"})
-    
+    res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
 
+export const checkAuth = (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    console.log("Error in checkAuth controller", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
