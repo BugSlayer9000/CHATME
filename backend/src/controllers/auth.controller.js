@@ -1,6 +1,7 @@
 import { genarateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import cloudinary from "../lib/claudinary.js";
 
 export const signup = async (req, res) => {
   const { fullname, email, password } = req.body;
@@ -95,6 +96,21 @@ export const logout = (req, res) => {
 
 
 export const updateProfile = async (req,res) => {
-  
+  try {
+    const {profilePic} = req.body
+    const userID = req.user._id
+    // this is because the route is protected in the auth.routes.js and in protect route func user details are getched and send in the req
+
+    if (!profilePic) {
+      return res.status(400).json({message:"Profile Pic is required"})
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic)
+    const updatteUser = await User.findById(userID, {profilePic:uploadResponse.secure_url},{new:true})
+  } catch (error) {
+    console.log("Error in the update profile pic", error);
+    res.status(500).json({message:"Internal Server Error"})
+    
+  }
 }
 
