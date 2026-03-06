@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
+// purpose of this file is to verify the token and it's the right user that's logged in
+
 export const protectRoute = async (req, res, next) => {
   try {
     // add the package cookie-parser to the index.js to access the cookies
