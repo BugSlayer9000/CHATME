@@ -10,6 +10,8 @@ import {
   Loader,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import AuthImagePattern from "../components/AuthImagePattern";
+import toast from "react-hot-toast";
 
 
 const SignUpPage = () => {
@@ -22,7 +24,9 @@ const SignUpPage = () => {
 
   const { signup, isSigningUp } = useAuthStore();
 
-  const validateForm = () => {};
+  const validateForm = () => {
+    
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -115,6 +119,7 @@ const SignUpPage = () => {
               type="submit"
               className="btn btn-primary w-full"
               disabled={isSigningUp}
+              onClick={validateForm}
             >
               {isSigningUp ? (
                 <>
@@ -133,6 +138,11 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
+      {/* right side */}
+      <AuthImagePattern
+        title="Join Our Community"
+        subtitle="Connect with friends, share moments and stay in touch with you"
+      />
     </div>
   );
 };
