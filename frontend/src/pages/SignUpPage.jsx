@@ -138,6 +138,9 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
+      <div>
+        <p>Remove this part when you are really working on it</p>
+      </div>
       {/* right side */}
       <AuthImagePattern
         title="Join Our Community"
