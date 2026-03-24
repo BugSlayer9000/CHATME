@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullname: "",
     email: "",
     password: "",
   });
@@ -25,11 +25,20 @@ const SignUpPage = () => {
   const { signup, isSigningUp } = useAuthStore();
 
   const validateForm = () => {
-    
+    if (!formData.fullname.trim()) return toast.error("Full name is required")
+    if (!formData.email.trim()) return toast.error("Email is required")
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)) return toast.error("Invalid email format")
+    if (!formData.password) return toast.error("Password is required")
+
+    return true
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const success = validateForm()
+
+    if (success===true) signup(formData)
   };
 
   return (
@@ -63,9 +72,9 @@ const SignUpPage = () => {
                   type="text"
                   className="input input-bordered w-full pl-10"
                   placeholder="John Doe"
-                  value={formData.fullName}
+                  value={formData.fullname}
                   onChange={(e) =>
-                    setFormData({ ...formData, fullName: e.target.value })
+                    setFormData({ ...formData, fullname: e.target.value })
                   }
                 />
               </div>
@@ -137,9 +146,6 @@ const SignUpPage = () => {
             </p>
           </div>
         </div>
-      </div>
-      <div>
-        <p>Remove this part when you are really working on it</p>
       </div>
       {/* right side */}
       <AuthImagePattern
