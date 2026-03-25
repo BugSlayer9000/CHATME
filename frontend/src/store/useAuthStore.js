@@ -8,6 +8,7 @@ export const useAuthStore = create((set) => ({
   isSigningUp: false,
   isLoggingIn: false,
   isCheckingAuth: true,
+  isUpdatingProfile: false,
 
   checkAuth : async () => {
     try {
@@ -55,5 +56,9 @@ export const useAuthStore = create((set) => ({
   } catch (error) {
     toast.error(error.response.data.message)
   }
+  },
+
+  updateProfile: async (data) => {
+    
   }
 }));
