@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Camera, Mail, User } from "lucide-react";
 
 const ProfilePage = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
+  const [selectedImg, setSelectedImg] = useState(null);
 
-  const handleImageUpload = async (e) => {};
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    
+    
+    if (!file) return;
 
-  console.log(authUser.profilePic);
+
+
+    const reader = new FileReader();
+    
+    reader.readAsDataURL(file)
+
+    reader.onload = async () => {
+      console.log("logs here");
+      
+      const base64Image = reader.result;
+      console.log("got the pic");
+      setSelectedImg(base64Image);
+      await updateProfile({ profilePic: base64Image });
+    };
+  };
 
   return (
     <div className="h-screen pt-20">
@@ -23,7 +42,7 @@ const ProfilePage = () => {
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
               <img
-                src={authUser.profilePic || "/avatar.webp"}
+                src={selectedImg || authUser.profilePic || "/avatar.webp"}
                 alt="Avatar"
                 className="size-32 rounded-full object-cover border-4 "
               />
@@ -51,17 +70,21 @@ const ProfilePage = () => {
           <div className="space-y-6">
             <div className="space-y-5">
               <div className="text-sm text-zinc-400 flex items-center gap-2">
-                <User className="w-5 h-5"/>
+                <User className="w-5 h-5" />
                 Full Name
               </div>
-              <p className="px-4 py-2.5 bg-bage-200 rounded-lg border">{authUser?.fullname}</p>
+              <p className="px-4 py-2.5 bg-bage-200 rounded-lg border">
+                {authUser?.fullname}
+              </p>
             </div>
             <div className="space-y-5">
               <div className="text-sm text-zinc-400 flex items-center gap-2">
-                <Mail className="w-5 h-5"/>
+                <Mail className="w-5 h-5" />
                 Email Address
               </div>
-              <p className="px-4 py-2.5 bg-bage-200 rounded-lg border">{authUser?.email}</p>
+              <p className="px-4 py-2.5 bg-bage-200 rounded-lg border">
+                {authUser?.email}
+              </p>
             </div>
           </div>
 
