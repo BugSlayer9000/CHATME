@@ -8,19 +8,16 @@ const ProfilePage = () => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    
-    
+
     if (!file) return;
 
-
-
     const reader = new FileReader();
-    
-    reader.readAsDataURL(file)
+
+    reader.readAsDataURL(file);
 
     reader.onload = async () => {
       console.log("logs here");
-      
+
       const base64Image = reader.result;
       console.log("got the pic");
       setSelectedImg(base64Image);
