@@ -25,7 +25,10 @@ const MessageInput = () => {
     reader.readAsDataURL(file);
   };
 
-  const removeImage = () => {};
+  const removeImage = () => {
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -58,7 +61,7 @@ const MessageInput = () => {
               alt="Preview"
               className=" w-20 h-20 object-cover rounded-lg border-zinc-700"
             />
-          
+
             <button
               onClick={removeImage}
               className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300
